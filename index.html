@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honda | Limitlerin Ötesinde</title>
+	<link rel="icon" type="image/png(foto turu)" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Honda.svg/960px-Honda.svg.png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --honda-red: #cc0000;
+            --black: #0a0a0a;
+            --gray: #1a1a1a;
+            --white: #ffffff;
+            --light-gray: #f8f8f8;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--white); color: #333; overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* --- Navigasyon --- */
+        nav {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 15px 10%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: fixed; width: 100%; z-index: 2000;
+            border-bottom: 3px solid var(--honda-red);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo { font-family: 'Orbitron', sans-serif; color: var(--white); font-size: 1.8rem; letter-spacing: 3px; cursor: pointer; }
+        .logo span { color: var(--honda-red); }
+
+        .nav-links { display: flex; list-style: none; }
+        .nav-links li { margin-left: 25px; }
+        .nav-links a { 
+            color: var(--white); text-decoration: none; font-weight: 700; 
+            font-size: 0.75rem; text-transform: uppercase; transition: var(--transition);
+            letter-spacing: 1px;
+        }
+        .nav-links a:hover { color: var(--honda-red); }
+
+        /* --- Sayfa Geçişleri --- */
+        .page-content { display: none; padding-top: 80px; min-height: 100vh; animation: fadeInUp 0.7s ease; }
+        .page-content.active { display: block; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Ortak Bileşenler --- */
+        .container { padding: 60px 10%; }
+        .section-title { font-family: 'Orbitron'; font-size: 2.2rem; text-align: center; margin-bottom: 60px; position: relative; letter-spacing: 2px; }
+        .section-title::after { content: ''; width: 60px; height: 4px; background: var(--honda-red); position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); }
+        .sub-heading { font-family: 'Orbitron'; font-size: 1.5rem; color: var(--honda-red); margin: 40px 0 20px; text-transform: uppercase; border-left: 5px solid var(--honda-red); padding-left: 15px; }
+
+        /* --- Ana Sayfa --- */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            color: white;
+            text-align: center;
+        }
+
+        .hero-bg-img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+            z-index: 2;
+        }
+
+        .hero h1 { font-family: 'Orbitron'; font-size: 4rem; letter-spacing: 5px; margin-bottom: 10px; }
+        .hero h1, .hero p, .hero button { position: relative; z-index: 3; }
+
+        /* --- Tarihçe --- */
+        .history-item { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 100px; }
+        .history-item img { width: 100%; border-radius: 10px; box-shadow: 15px 15px 0 var(--honda-red); transition: var(--transition); }
+        .history-item:nth-child(even) { direction: rtl; }
+        .history-item:nth-child(even) .text-box { direction: ltr; }
+        .text-box h3 { font-family: 'Orbitron'; font-size: 1.8rem; color: var(--honda-red); margin-bottom: 25px; }
+        .text-box p { line-height: 1.8; font-size: 1rem; color: #444; }
+
+        /* --- Modeller --- */
+        .models-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 40px; 
+        }
+        
+        .car-card { 
+            background: #ffffff; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            position: relative; 
+            transition: var(--transition); 
+            border: 1px solid #eaeaea;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .car-card:hover { 
+            transform: translateY(-15px); 
+            border-color: var(--honda-red); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12); 
+        }
+
+        .car-card img { 
+            width: 100%; 
+            height: 220px; 
+            object-fit: contain;
+            background: #fcfcfc;
+            padding: 25px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .car-info { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
+        .car-info h3 { font-family: 'Orbitron'; margin-bottom: 15px; font-size: 1.3rem; color: var(--black); }
+        .car-info p { font-size: 0.95rem; color: #666; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+        .car-price { color: var(--honda-red); font-weight: 700; font-size: 1.2rem; border-top: 1px solid #eee; padding-top: 15px; }
+
+        /* --- MOTORLAR & MOTOSİKLETLER CSS --- */
+        .engine-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+            margin-bottom: 60px;
+        }
+        .engine-card { 
+            background: var(--white); 
+            border-radius: 20px; 
+            overflow: hidden;
+            border: 1px solid #eee;
+            transition: var(--transition);
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .engine-card:hover { transform: scale(1.03); border-color: var(--honda-red); }
+        .engine-img-box { width: 100%; height: 200px; overflow: hidden; background: #000; }
+        .engine-img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.5s; }
+        .engine-card:hover .engine-img-box img { opacity: 1; transform: scale(1.1); }
+        .engine-content { padding: 25px; }
+        .engine-content h3 { font-family: 'Orbitron'; margin-bottom: 10px; color: var(--black); font-size: 1.1rem; }
+        .engine-content p { font-size: 0.85rem; line-height: 1.5; color: #666; }
+
+        /* --- Karşılaştırma Tablosu --- */
+        .table-wrapper { overflow-x: auto; border-radius: 20px; border: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th { background: var(--black); color: white; padding: 25px; font-family: 'Orbitron'; letter-spacing: 1px; }
+        td { padding: 22px; border: 1px solid #f0f0f0; text-align: center; font-size: 0.95rem; }
+        tr:hover { background: #fffcfc; }
+        .spec-label { background: #fafafa; text-align: left; font-weight: 700; width: 220px; color: var(--black); }
+
+        /* --- İletişim --- */
+        .contact-wrapper { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; background: #fff; padding: 60px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+        .contact-info h3 { font-family: 'Orbitron'; color: var(--black); font-size: 1.5rem; }
+        .contact-info p { margin-bottom: 20px; display: flex; align-items: center; font-size: 1rem; }
+        .contact-info i { color: var(--honda-red); font-size: 1.3rem; margin-right: 20px; width: 30px; }
+        
+        input, select, textarea { width: 100%; padding: 18px; margin-bottom: 20px; border: 2px solid #f0f0f0; border-radius: 12px; outline: none; font-family: inherit; transition: 0.3s; }
+        input:focus, textarea:focus { border-color: var(--honda-red); background: #fff; }
+        
+        .btn-submit { 
+            background: var(--honda-red); color: white; border: none; padding: 18px 40px; 
+            border-radius: 12px; font-weight: 700; font-family: 'Orbitron'; cursor: pointer; 
+            transition: var(--transition); width: 100%; letter-spacing: 1px;
+        }
+        .btn-submit:hover { background: var(--black); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(204, 0, 0, 0.2); }
+
+        footer { background: var(--black); color: rgba(255,255,255,0.7); padding: 80px 10%; text-align: center; }
+        .social-icons { margin-bottom: 30px; }
+        .social-icons i { font-size: 1.5rem; margin: 0 20px; cursor: pointer; transition: 0.3s; color: white; }
+        .social-icons i:hover { color: var(--honda-red); transform: scale(1.2); }
+
+        @media (max-width: 992px) {
+            .history-item, .contact-wrapper { grid-template-columns: 1fr; gap: 40px; }
+            .hero h1 { font-size: 2.8rem; }
+            .container { padding: 40px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="showPage('home')">H<span>ONDA</span></div>
+        <ul class="nav-links">
+            <li><a href="#" onclick="showPage('home')">Ana Sayfa</a></li>
+            <li><a href="#" onclick="showPage('history')">Tarihçe</a></li>
+            <li><a href="#" onclick="showPage('models')">Modeller</a></li>
+            <li><a href="#" onclick="showPage('engines')">Motorlar</a></li>
+            <li><a href="#" onclick="showPage('compare')">Karşılaştırma</a></li>
+            <li><a href="#" onclick="showPage('contact')">İletişim</a></li>
+        </ul>
+    </nav>
+
+    <div id="home" class="page-content active">
+        <section class="hero">
+            <img src="https://static.wixstatic.com/media/2e2f73_3f4da05190dc4ca4a06a60eb261d5229~mv2.jpeg" alt="Honda Arkaplan" class="hero-bg-img">
+            <div class="hero-overlay"></div>
+            <h1>HAYALLERİN GÜCÜ</h1>
+            <p>The Power of Dreams</p>
+            <button class="btn-submit" style="width: auto; margin-top: 30px; padding: 20px 50px;" onclick="showPage('models')">KOLEKSİYONU KEŞFET</button>
+        </section>
+    </div>
+	
+	
+
+    <div id="history" class="page-content">
+        <div class="container">
+            <h2 class="section-title">TARİHÇEMİZ</h2>
+            <div class="history-item">
+                <img src="https://static.wixstatic.com/media/2e2f73_fdb36644cc794fecbc785327cba46f93~mv2.png" alt="Soichiro Honda">
+                <div class="text-box">
+                    <h3>1948: Bir Mühendisin Rüyası</h3>
+                    <p>Soichiro Honda (1906–1991), dünyanın en büyük otomotiv ve motosiklet üreticilerinden biri olan Honda Motor Company'nin kurucusu, vizyoner bir mühendis ve sanayicidir. 
+
+Hayatı ve Kariyerindeki Dönüm Noktaları
+Çıraklıktan Atölyeye: 15 yaşında Tokyo'da bir tamirhanede çırak olarak işe başlamış, 6 yıl sonra kendi tamir atölyesini açmıştır.
+İlk Girişim: 1937'de piston segmanları üretmek için Tokai Seiki şirketini kurmuş; ancak savaş sırasındaki bombardımanlar ve büyük bir deprem sonucu fabrikası yıkılmıştır. Bu işletmeyi Toyota'ya satarak yeni bir başlangıç yapmıştır.
+Honda'nın Doğuşu: 1946'da bisikletlere küçük jeneratör motorları takma fikriyle Honda Teknik Araştırma Enstitüsü'nü kurmuş, 1948'de ise Takeo Fujisawa ile ortaklaşa Honda Motor Company'yi hayata geçirmiştir.
+Küresel Başarı: Mühendisliğe olan tutkusu sayesinde Honda'yı dünyanın en büyük motosiklet üreticisi yapmış; ardından otomobil, uçak ve güç ekipmanları alanında küresel bir dev haline getirmiştir.</p>
+                </div>
+            </div>
+            <div class="history-item">
+                <img src="https://static.wixstatic.com/media/2e2f73_2a84bb09bb81492c8f2cbd706bf4b801~mv2.webp" alt="Honda Racing">
+                <div class="text-box">
+                    <h3>Yarışçı DNA'sı</h3>
+                    <p>Honda için pistler bir laboratuardır. Formula 1'den MotoGP'ye kadar her alanda kazanılan zaferler, bugün kullandığınız otomobillerin güvenliğini ve performansını oluşturur. Honda Racing (HRC), bu tutkunun merkezidir.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	
+
+    <div id="models" class="page-content">
+        <div class="container">
+            <h2 class="section-title">MODELLERİMİZ</h2>
+            <div class="models-grid">
+                <div class="car-card">
+                    <img src="https://static.wixstatic.com/media/2e2f73_9e73ed34ddd44d9c885127e9a4b6372b~mv2.jpg">
+                    <div class="car-info">
+                        <h3>Civic Type R</h3>
+                        <p>Pistlerin en hızlı önden çekişli otomobili. 0-100 km/s hızlanması 5.4 saniye, son hızı 275 km/s.</p>
+                        <p class="car-price">5.500.000 TL'den başlayanlarla</p>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <img src="https://www.arabam.com/blog/wp-content/uploads/2016/01/075954_2016_honda_CR-V.jpg">
+                    <div class="car-info">
+                        <h3>Honda CR-V</h3>
+                        <p>Sessiz sürüş, geniş iç hacim ve kendi kendini şarj eden hibrit motoruyla aileler için tasarlanmıştır.</p>
+                        <p class="car-price">6.160.000 TL'den başlayanlarla</p>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <img src="https://static.wixstatic.com/media/2e2f73_e620a73bc2774b018446e87653862fd3~mv2.jpg">
+                    <div class="car-info">
+                        <h3>Honda Jazz</h3>
+                        <p>Şehrin en akıllı ve ekonomik e:HEV modeli. Gelişmiş Honda SENSING teknolojisi ile donatılmıştır.</p>
+                        <p class="car-price">1.880.000 TL'den başlayanlarla</p>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <img src="https://d1ek71enupal89.cloudfront.net/images/blocks_png/HONDA/HR-V/5DR/25HonHrvAdvEHev5drGryFR3_800.jpg">
+                    <div class="car-info">
+                        <h3>Honda HR-V</h3>
+                        <p>Modern tasarım, yüksek sürüş pozisyonu ve kompakt yapısıyla şehir hayatına tam uyum.</p>
+                        <p class="car-price">2.390.000 TL'den başlayanlarla</p>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <img src="https://static.wixstatic.com/media/2e2f73_3cb46accd5bb4a1fb323ac9672f4133f~mv2.jpg">
+                    <div class="car-info">
+                        <h3>Honda Civic Sedan</h3>
+                        <p>Konfor odaklı, hibrit seçenekli ve teknolojik iç mekan.</p>
+                        <p class="car-price">2.360.000 TL'den başlayanlarla</p>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <img src="https://static.wixstatic.com/media/2e2f73_4d56192ad76e46b680d4f6b64b1cf166~mv2.jpg">
+                    <div class="car-info">
+                        <h3>Honda Prelude</h3>
+                        <p>Geleceğin spor otomobili. Dinamik şasi ve hibrit gücünün efsanevi Prelude ismiyle buluşması.</p>
+                        <p class="car-price">5.400.000 TL'den başlayanlarla</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	
+
+    <div id="engines" class="page-content">
+        <div class="container">
+            <h2 class="section-title">GÜCÜN DÜNYASI</h2>
+            
+            <h3 class="sub-heading">Otomobil Teknolojileri</h3>
+            <div class="engine-grid">
+                <div class="engine-card">
+                    <div class="engine-img-box">
+                        <img src="https://autoimage.capitalone.com/cms/Auto/assets/images/2942-hero-Honda-S2000-VTEC-Engine.jpg" alt="VTEC">
+                    </div>
+                    <div class="engine-content">
+                        <h3>VTEC TEKNOLOJİSİ</h3>
+                        <p>Yüksek devirlerde supap zamanlamasını değiştirerek sıradan bir motoru performans makinesine dönüştüren efsane.</p>
+                    </div>
+                </div>
+                <div class="engine-card">
+                    <div class="engine-img-box">
+                        <img src="https://assets.autobuzz.my/wp-content/uploads/2021/07/29184135/2021-Honda-HRV-eHEV-components-4.jpg" alt="e:HEV">
+                    </div>
+                    <div class="engine-content">
+                        <h3>e:HEV HİBRİT</h3>
+                        <p>Kendi kendini şarj eden, iki elektrik motoruyla sessiz ve ultra verimli sürüş sunan geleceğin teknolojisi.</p>
+                    </div>
+                </div>
+                <div class="engine-card">
+                    <div class="engine-img-box">
+                        <img src="https://conceptbunny.com/wp-content/uploads/2018/03/VTEC-E_engine.jpg" alt="VTEC Turbo">
+                    </div>
+                    <div class="engine-content">
+                        <h3>VTEC TURBO</h3>
+                        <p>Alt devirlerden itibaren yüksek tork sağlayan, kompakt ama inanılmaz güçlü turbo besleme sistemi.</p>
+                    </div>
+                </div>
+            </div>
+			
+
+            <h3 class="sub-heading">Efsanevi Motosikletler</h3>
+            <div class="engine-grid">
+                <div class="engine-card">
+                    <div class="engine-img-box">
+                        <img src="https://www.motosikletsitesi.com/wp-content/uploads/2023/10/honda_crf1100l_africa_twin_2024.jpg" alt="Africa Twin">
+                    </div>
+                    <div class="engine-content">
+                        <h3>CRF1100L AFRICA TWIN</h3>
+                        <p>Dünyanın en zorlu yolları için tasarlanmış gerçek bir macera ikonu. DCT şanzıman seçeneği ile rakipsiz.</p>
+                    </div>
+                </div>
+                <div class="engine-card">
+                    <div class="engine-img-box">
+                        <img src="https://cdn.v5.honda.com.tr/img/motosiklet/modelImg/cbr-1000rr-r-v2.png" alt="Fireblade">
+                    </div>
+                    <div class="engine-content">
+                        <h3>CBR1000RR-R FIREBLADE</h3>
+                        <p>Pistlerin kralı. MotoGP teknolojisiyle donatılmış, 217 beygir gücünde safkan bir hız makinesi.</p>
+                    </div>
+                </div>
+                <div class="engine-card">
+                    <div class="engine-img-box">
+                        <img src="https://inallar.com.tr//media/color/beyaz8.png" alt="Gold Wing">
+                    </div>
+                    <div class="engine-content">
+                        <h3>GL1800 GOLD WING</h3>
+                        <p>Motosiklet dünyasının lüks limuzini. Geri vites, hava yastığı ve 6 silindirli motoruyla konforun zirvesi.</p>
+                    </div>
+                </div>
+				<div class="engine-card">
+                    <div class="engine-img-box">
+                        <img src="https://www.motorcular.com/files/1000x1000_honda_pcx_125_2018_11_1072156504.jpg" alt="Honda Pcx125">
+                    </div>
+                    <div class="engine-content">
+                        <h3>Honda Pcx125</h3>
+                        <p> 125 cc, Sıvı soğutmalı,Şanzıman: Otomatik Vites (CVT).
+Yakıt Kapasitesi: 8.1 Litre.Performans: Ortalama 100 km/s hıza ulaşabilir; kullanıcı testlerinde 111 km/s gibi değerler görülmüştür. </p>
+                    </div>
+                </div>
+				<div class="engine-card">
+                    <div class="engine-img-box">
+                        <img src="https://inallar.com.tr/media/color/gri6.png" alt="Honda NT1100">
+                    </div>
+                    <div class="engine-content">
+                        <h3>Honda NT1100</h3>
+                        <p>Motor: 1084 cc, sıvı soğutmalı, paralel çift silindirli (Africa Twin motor bloğu).
+Performans: 102 HP (75 kW) güç ve 104 Nm tork üretir.</p>
+                    </div>
+                </div>
+				 <div class="engine-card">
+                    <div class="engine-img-box">
+                        <img src="https://www.donanimhaber.com/images/images/haber/161603/src_340x1912xyeni-honda-cb750-hornet-turkiye-de-iste-fiyati-ve-ozellikleri.jpg" alt="(Naked): CB750 Hornet">
+                    </div>
+                    <div class="engine-content">
+                        <h3>(Naked): CB750 Hornet</h3>
+                        <p>Motor: 755 cc, sıvı soğutmalı, 8 supaplı, Unicam paralel çift silindirli.
+Performans: 91 HP (67,5 kW) @ 9.500 d/d ve 75 Nm tork @ 7.250 d/d. Wheelie Control: Ön tekerleğin kontrolsüz kalkışını engeller.
+Motor Freni Kontrolü: Vites düşürürken arka tekerin kilitlenmesini yumuşatır.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	
+
+    <div id="compare" class="page-content">
+    <div class="container">
+        <h2 class="section-title">ARABA KARŞILAŞTIRMA</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="spec-label">Özellikler</th>
+                        <th>Civic Type R</th>
+                        <th>Civic Sedan</th>
+                        <th>CR-V e:HEV</th>
+                        <th>Honda Prelude</th>
+                        <th>Honda Jazz</th>
+                        <th>Honda HR-V</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="spec-label">Beygir Gücü</td><td>329 HP</td><td>182 HP</td><td>184 HP</td><td>200-207HP</td><td>122 PS</td><td>131 PS</td></tr>
+                    <tr><td class="spec-label">0-100 Hızlanma</td><td>5.4 sn</td><td>8.1 sn</td><td>9.2 sn</td><td>yaklaşık 7sn</td><td>9.4 - 9.6 saniye</td><td>10.6 - 10.7 saniye</td></tr>
+                    <tr><td class="spec-label">Yakıt Tüketimi</td><td>8.2 L</td><td>6.7 L</td><td>4.8 L</td><td>4.5 - 5.0 L</td><td>4.5 - 4.8 L</td><td>5.4 L</td></tr>
+                    <tr><td class="spec-label">Çekiş Sistemi</td><td>Önden Çekiş(FWD)</td><td>Önden Çekiş(FWD)</td><td>4x4 (AWD)</td><td>Önden Çekiş(FWD)</td><td>Önden Çekiş(FWD)</td><td>Önden Çekiş(FWD)</td></tr>
+                    <tr><td class="spec-label">Motor yakıt</td><td>2.0L VTEC Turbo Benzinli.</td><td>1.5L VTEC Turbo Benzinli Motor</td><td>2.0L benzinli motor ve çift elektrik motorlu sistem.</td><td>2.0L 4 silindirli hibrit motor bloğu</td><td>1.5L i-VTEC Hibrit (Benzin + Elektrik)</td><td>1.5L i-VTEC Hibrit (Benzin + Elektrik)</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <br><br>
+
+        <h2 class="section-title">MOTOSİKLET KARŞILAŞTIRMA</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="spec-label">Özellikler</th>
+                        <th>CBR1000RR-R FIREBLADE</th>
+                        <th>CRF1100L AFRICA TWIN</th>
+                        <th>Honda Pcx125</th>
+                        <th>GL1800 GOLD WING</th>
+                        <th>(Naked): CB750 Hornet</th>
+                        <th>Honda NT1100</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="spec-label">Beygir Gücü</td><td>217 HP</td><td>102 HP</td><td>95 HP</td><td>126 HP</td><td>58 PS</td><td>58 PS</td></tr>
+                    <tr><td class="spec-label">0-100 Hızlanma</td><td>2.9 sn</td><td>3.8 sn</td><td>3.6 sn</td><td>4.2 sn</td><td>5.2 saniye</td><td>4.8 saniye</td></tr>
+                    <tr><td class="spec-label">Yakıt Tüketimi</td><td>6.3 L</td><td>4.9 L</td><td>4.9 L</td><td>5.5 L</td><td>3.5 L</td><td>3.6 L</td></tr>
+                    <tr><td class="spec-label">Çekiş Sistemi</td><td>Arkadan İtiş (Zincir)</td><td>Arkadan İtiş (Zincir)</td><td>Arkadan İtiş (Zincir)</td><td>Arkadan İtiş (Şaft)</td><td>Arkadan İtiş (Zincir)</td><td>Arkadan İtiş (Zincir)</td></tr>
+                    <tr><td class="spec-label">Motor yakıt</td><td>999cc Sıralı 4 Silindirli Benzinli</td><td>1084cc Paralel Çift Silindirli Motor</td><td>649cc Sıralı 4 Silindirli Benzinli Motor</td><td>1833cc 6 Silindirli Boxer Motor</td><td>745cc Paralel Çift Silindir (DCT)</td><td>745cc Paralel Çift Silindir (DCT)</td></tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+</div>
+	 
+	
+	
+	
+	
+	
+
+    <div id="contact" class="page-content">
+        <div class="container">
+            <h2 class="section-title">BİZE ULAŞIN</h2>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>İletişim Bilgileri</h3><br>
+                    <p><i class="fas fa-map-marker-alt"></i> Honda Genel Müdürlük, Antalya</p>
+                    <p><i class="fas fa-phone"></i> 123 0 321</p>
+                    <p><i class="fas fa-envelope"></i> www.honda.com.tr</p><br>
+                    <p>Pazartesi - Cumartesi: 09:00 - 18:00</p>
+                </div>
+                <form onsubmit="event.preventDefault(); alert('Talebiniz iletildi!');">
+                    <input type="text" placeholder="Adınız Soyadınız" required>
+                    <input type="email" placeholder="E-posta Adresiniz" required>
+                    <select>
+                        <option>İlgilendiğiniz Model Seçin.</option>
+                        <option>Civic Type R</option>
+                        <option>CR-V</option>
+                        <option>Honda Jazz</option>
+                        <option>Civic Sedan</option>
+						<option>Honda pcx125</option>
+						<option>CRF1100L AFRICA TWIN</option>
+                    </select>
+                    <textarea placeholder="Mesajınız..." rows="5" required></textarea>
+                    <button type="submit" class="btn-submit">BİLGİ TALEBİ GÖNDER</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="social-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-youtube"></i>
+            <i class="fab fa-twitter"></i>
+        </div>
+        <p>&copy; 2026 Honda Digital Experience | Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
